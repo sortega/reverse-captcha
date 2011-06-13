@@ -13,6 +13,6 @@
 
         <p>${message}</p>
 
-        <p>Go away or <a href="../test">retry</a>.</p>
+        <p>Go away or <a href="test">retry</a>.</p>
     </body>
 </html>

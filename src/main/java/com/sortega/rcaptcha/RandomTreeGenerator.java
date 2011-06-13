@@ -19,6 +19,7 @@ public class RandomTreeGenerator {
             char op = generateOp();
             int leftNodes = random.nextInt(numNodes - 1);
             int rightNodes = numNodes - 1 - leftNodes;
+            
             return new OpNode(op, generateTree(leftNodes), generateTree(rightNodes));
         } else {
             return new ValueNode(random.nextInt(100));

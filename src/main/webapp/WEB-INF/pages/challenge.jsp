@@ -1,9 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-<%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,8 +32,8 @@
 
         <p>By the time a human finish reading this text, the time will be
             exhausted.</p>
-
-        <form action="../test" method="POST">
+        
+        <form action="test" method="POST">
             <span class="challenge">${challenge}</span> =
             <input type="text" id="result" name="result"/>
             <input type="submit" id="submit" value="submit before --- ms"/>

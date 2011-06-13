@@ -6,14 +6,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author sortega
  */
 public class RCaptcha extends HttpServlet {
-    private long graceTime;
 
+    private static final Logger logger = LoggerFactory.getLogger(RCaptcha.class);
+    private long graceTime;
     private long timeout = 0;
     private long result = 0;
     private String challenge = "";
@@ -36,17 +39,18 @@ public class RCaptcha extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        logger.info("GET");
         if (System.currentTimeMillis() > timeout) {
             replaceChallenge();
         }
 
-        request.setAttribute("remaining_millis", 
+        request.setAttribute("remaining_millis",
                 this.timeout - System.currentTimeMillis());
         request.setAttribute("challenge", this.challenge);
 
         doView("challenge", request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -57,11 +61,13 @@ public class RCaptcha extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        logger.info("POST '{}'", request.getAttribute("result"));
+
         if (System.currentTimeMillis() > timeout) {
             request.setAttribute("message",
-                    "Your response was not expected so late. " +
-                    "Are you hypertrashing or are you a human?");
+                    "Your response was not expected so late. "
+                    + "Are you hypertrashing or are you a human?");
             doView("wrong", request, response);
         } else {
             String receivedStrinResult = request.getParameter("result");
@@ -94,14 +100,29 @@ public class RCaptcha extends HttpServlet {
     private void replaceChallenge() {
         this.timeout = System.currentTimeMillis() + this.graceTime;
 
-        Node expression = this.generator.generateTree(10);
-        this.challenge = expression.toString();
-        this.result = expression.getValue();
+        try {
+            do {
+                Node expression = this.generator.generateTree(10);
+                this.challenge = expression.toString();
+                this.result = expression.getValue();
+            } while (result == 0);
+            
+            logger.info("New challenge {} = {} before {}",
+                    new Object[]{this.challenge, this.result, this.timeout});
+
+        } catch (ArithmeticException ex) {
+            logger.error("Impossible to evaluate expression", ex);
+            this.replaceChallenge();
+        }
     }
 
     private void doView(String view, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/pages/" + view + ".jsp")
-                .forward(request, response);
+        try {
+            getServletContext().getRequestDispatcher("/WEB-INF/pages/" + view + ".jsp").forward(request, response);
+            logger.info("Redirected to view {}", view);
+        } catch (Exception ex) {
+            logger.error("Couldn't redirect to view", ex);
+        }
     }
 }
