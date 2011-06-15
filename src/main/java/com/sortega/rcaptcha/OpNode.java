@@ -33,6 +33,7 @@ public class OpNode implements Node {
         }
     }
 
+    @Override
     public int precedence() {
         switch(op) {
             case '*':
@@ -50,17 +51,21 @@ public class OpNode implements Node {
 
     @Override
     public String toString() {
+        return "(" + left.toString() + this.op + right.toString() + ")";
+    }
+
+    private String protectWithParens(Node node) {
+        if (node.precedence() >= this.precedence()) {
+            return "(" + node.toParenlessString() + ")";
+        } else {
+            return node.toParenlessString();
+        }
+    }
+
+    @Override
+    public String toParenlessString() {
         String l = protectWithParens(left),
                 r = protectWithParens(right);
         return l + op + r;
     }
-
-    private String protectWithParens(Node node) {
-        if (node.precedence() > this.precedence()) {
-            return "(" + node.toString() + ")";
-        } else {
-            return node.toString();
-        }
-    }
-
 }

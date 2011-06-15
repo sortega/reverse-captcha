@@ -62,7 +62,7 @@ public class RCaptcha extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("POST '{}'", request.getAttribute("result"));
+        logger.info("POST '{}'", request.getParameter("result"));
 
         if (System.currentTimeMillis() > timeout) {
             request.setAttribute("message",
@@ -103,7 +103,8 @@ public class RCaptcha extends HttpServlet {
         try {
             do {
                 Node expression = this.generator.generateTree(10);
-                this.challenge = expression.toString();
+                logger.debug("Generated expression {}", expression);
+                this.challenge = expression.toParenlessString();
                 this.result = expression.getValue();
             } while (result == 0);
             

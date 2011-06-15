@@ -11,6 +11,7 @@ public class ValueNode implements Node {
         this.value = value;
     }
 
+    @Override
     public long getValue() {
         return this.value;
     }
@@ -20,8 +21,13 @@ public class ValueNode implements Node {
         return Long.toString(this.value, 10);
     }
 
+    @Override
     public int precedence() {
         return 0;
     }
 
+    @Override
+    public String toParenlessString() {
+        return toString();
+    }
 }

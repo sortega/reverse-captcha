@@ -2,7 +2,7 @@ package com.sortega.rcaptcha;
 
 public interface Node {
 
-    public abstract long getValue();
+    public long getValue();
 
     /**
      * Operator precedence. Lower is more associative.
@@ -11,6 +11,7 @@ public interface Node {
     public int precedence();
 
     @Override
-    public abstract String toString();
-
+    public String toString();
+    
+    public String toParenlessString();
 }
