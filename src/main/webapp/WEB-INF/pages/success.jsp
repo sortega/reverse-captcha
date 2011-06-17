@@ -6,7 +6,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="user-scalable=no, width=device-width" />
         <title>Reverse CAPTCHA - Access granted</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
         <h1>Access granted</h1>

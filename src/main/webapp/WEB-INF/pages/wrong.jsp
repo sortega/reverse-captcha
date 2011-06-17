@@ -6,7 +6,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="user-scalable=no, width=device-width" />
         <title>Reverse CAPTCHA - Test</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
         <h1>Fail</h1>
@@ -14,5 +16,10 @@
         <p>${message}</p>
 
         <p>Go away or <a href="test">retry</a>.</p>
+        
+        <p>
+            <iframe src="http://www.youtube.com/embed/oHg5SJYRHA0" 
+                    frameborder="0" allowfullscreen></iframe>
+        </p>
     </body>
 </html>

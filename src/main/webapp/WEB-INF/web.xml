@@ -6,7 +6,7 @@
         <servlet-class>com.sortega.rcaptcha.RCaptcha</servlet-class>
         <init-param>
             <param-name>grace_time</param-name>
-            <param-value>2000</param-value>
+            <param-value>1500</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
